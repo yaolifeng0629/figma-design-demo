@@ -1,43 +1,70 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
+import { CustomTabBar } from '@/components/ui/CustomTabBar';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+/**
+ * TabLayout - Main tab navigation layout
+ *
+ * Implements a 5-tab navigation system with custom tab bar
+ * matching the provided design with prominent center "Send Money" button
+ */
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
     <Tabs
+      tabBar={(props) => <CustomTabBar {...props} />}
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tabIconSelected,
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tabIconDefault,
       }}>
+
+      {/* Home Tab */}
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarLabel: 'Home',
         }}
       />
+
+      {/* Recipients Tab */}
       <Tabs.Screen
-        name="explore"
+        name="recipients"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Recipients',
+          tabBarLabel: 'Recipients',
+        }}
+      />
+
+      {/* Send Money Tab - Center prominent button */}
+      <Tabs.Screen
+        name="send-money"
+        options={{
+          title: 'Send Money',
+          tabBarLabel: 'Send Money',
+        }}
+      />
+
+      {/* Track Tab */}
+      <Tabs.Screen
+        name="track"
+        options={{
+          title: 'Track',
+          tabBarLabel: 'Track',
+        }}
+      />
+
+      {/* Locations Tab */}
+      <Tabs.Screen
+        name="locations"
+        options={{
+          title: 'Locations',
+          tabBarLabel: 'Locations',
         }}
       />
     </Tabs>
